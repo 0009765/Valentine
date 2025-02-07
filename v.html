@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposal Day</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff0f5;
+      color: #ff3366;
+      text-align: center;
+      padding: 50px;
+      overflow: hidden;
+      position: relative; /* To position emojis correctly */
+    }
+    h1 {
+      font-size: 40px;
+      color: #ff3366;
+    }
+    p {
+      font-size: 22px;
+      color: #ff3366;
+    }
+    .proposal-button {
+      padding: 15px 30px;
+      background-color: #ff3366;
+      color: white;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      margin-top: 30px;
+      transition: background-color 0.3s ease;
+    }
+    .proposal-button:hover {
+      background-color: #e02455;
+    }
+    .heart {
+      font-size: 50px;
+      color: #ff3366;
+    }
+    .response-buttons {
+      margin-top: 30px;
+    }
+    .response-buttons button {
+      padding: 15px 30px;
+      margin: 10px;
+      background-color: #ff3366;
+      color: white;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .response-buttons button:hover {
+      background-color: #e02455;
+      transform: scale(1.1);
+    }
+    .hidden {
+      display: none;
+    }
+    .reject-message {
+      color: #e02455;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+    .accept-message {
+      color: #4caf50;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+    .bounce {
+      animation: bounce 1s infinite;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+    .emoji-flow {
+      position: absolute;
+      font-size: 40px;
+      animation: emojiFlow 5s linear infinite;
+      opacity: 0.8;
+    }
+    @keyframes emojiFlow {
+      0% {
+        transform: translateY(0) rotate(0);
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+      }
+    }
+    .moving-button {
+      position: absolute;
+      transition: left 0.3s ease, top 0.3s ease; /* Smooth transition for moving */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>My Dearest Love</h1>
+  <p>There is something I’ve been meaning to ask...</p>
+
+  <div class="heart bounce">&#10084;&#65039;</div>
+
+  <button class="proposal-button" onclick="showProposal()">Click to Reveal Proposal</button>
+
+  <div id="proposal-message" class="hidden" style="margin-top: 30px;">
+    <h2>💍 Will you be mine forever? 💍</h2>
+    <p id="proposal-text">I can't wait to share every moment of life with you, hand in hand, forever and always.</p>
+    
+    <!-- Response buttons for accept/reject -->
+    <div class="response-buttons">
+      <button onclick="acceptProposal()">Accept</button>
+      <button id="reject-btn" class="moving-button" onclick="rejectProposal(event)">Reject</button>
+    </div>
+  </div>
+
+  <div id="accept-message" class="accept-message hidden">
+    <h2>Yay! You said Yes! 💖</h2>
+    <p>Let’s make our forever together. 💕</p>
+  </div>
+
+  <div id="reject-message" class="reject-message hidden">
+    <p>Oops! You can't reject my love. 😔</p>
+    <p>Let’s try again later, okay? ❤️</p>
+  </div>
+
+  <script>
+    // List of creative proposal messages
+    const proposals = [
+      "I can't wait to share every moment of life with you, hand in hand, forever and always.",
+      "Let's step into the unknown together, hand in hand, and turn every ordinary day into our grand adventure.",
+      "Let’s walk through life’s ups and downs, side by side, hand in hand, forever together.",
+      "Every step I take, I want you by my side, hand in hand, under the stars that guide us through this journey of life.",
+      "My heart belongs to you, and my hand is yours to hold, as we create a life filled with endless love and happiness.",
+      "Let’s make every moment an adventure, hand in hand, because I can’t imagine my life without you.",
+      "Let’s hold hands, not just today, but forever, through all of life’s seasons and every single day.",
+      "You, me, and a lifetime of memories – hand in hand, let’s make every moment count."
+    ];
+
+    // Reveal the proposal message with a random one from the list
+    function showProposal() {
+      const randomIndex = Math.floor(Math.random() * proposals.length);
+      document.getElementById('proposal-text').textContent = proposals[randomIndex];
+      document.getElementById('proposal-message').style.display = 'block';
+    }
+
+    // When the user accepts the proposal
+    function acceptProposal() {
+      document.getElementById('proposal-message').style.display = 'none';
+      document.getElementById('accept-message').style.display = 'block';
+      createLoveEmojis();
+    }
+
+    // When the user rejects the proposal
+    function rejectProposal(event) {
+      // Move the Reject button every time it's clicked (on the click event)
+      moveRejectButton();
+
+      document.getElementById('proposal-message').style.display = 'none';
+      document.getElementById('reject-message').style.display = 'block';
+      createAngryEmojis();
+    }
+
+    // Function to generate love emojis when accepted
+    function createLoveEmojis() {
+      for (let i = 0; i < 200; i++) { // Increased number for more coverage
+        let emoji = document.createElement('span');
+        emoji.textContent = '❤️';
+        emoji.classList.add('emoji-flow');
+        emoji.style.left = Math.random() * 100 + '%';
+        emoji.style.animationDuration = Math.random() * 3 + 3 + 's'; // Randomized speed for variety
+        document.body.appendChild(emoji);
+      }
+    }
+
+    // Function to generate angry emojis when rejected
+    function createAngryEmojis() {
+      for (let i = 0; i < 200; i++) { // Increased number for more coverage
+        let emoji = document.createElement('span');
+        emoji.textContent = '😡';
+        emoji.classList.add('emoji-flow');
+        emoji.style.left = Math.random() * 100 + '%';
+        emoji.style.animationDuration = Math.random() * 3 + 3 + 's'; // Randomized speed for variety
+        document.body.appendChild(emoji);
+      }
+    }
+
+    // Move the Reject button to a random position on the screen every time it's clicked
+    function moveRejectButton() {
+      const rejectButton = document.getElementById('reject-btn');
+      const randomX = Math.random() * (window.innerWidth - rejectButton.offsetWidth); // Random X position
+      const randomY = Math.random() * (window.innerHeight - rejectButton.offsetHeight); // Random Y position
+      rejectButton.style.left = `${randomX}px`;
+      rejectButton.style.top = `${randomY}px`;
+    }
+  </script>
+
+</body>
+</html>
